@@ -1,0 +1,57 @@
+{
+  "totalEnquiries": {
+    "total": 80,
+    "bookkeeping": 10,
+    "financialReports": 10,
+    "taxCompliance": 10,
+    "auditing": 10,
+    "payroll": 10,
+    "budgeting": 10,
+    "specialAccounting": 10,
+    "businessAdvisory": 10
+  },
+  "graphData": {
+    "Weekly": [
+      { "name": "Mon", "value": 10 },
+      { "name": "Tue", "value": 12 },
+      { "name": "Wed", "value": 8 },
+      { "name": "Thu", "value": 10 },
+      { "name": "Fri", "value": 8 },
+      { "name": "Sat", "value": 12 },
+      { "name": "Sun", "value": 10 }
+    ],
+    "Monthly": [
+      { "name": "Week 1", "value": 20 },
+      { "name": "Week 2", "value": 18 },
+      { "name": "Week 3", "value": 22 },
+      { "name": "Week 4", "value": 20 }
+    ],
+    "Yearly": [
+      { "name": "Jan", "value": 5 },
+      { "name": "Feb", "value": 6 },
+      { "name": "Mar", "value": 7 },
+      { "name": "Apr", "value": 6 },
+      { "name": "May", "value": 7 },
+      { "name": "Jun", "value": 8 },
+      { "name": "Jul", "value": 6 },
+      { "name": "Aug", "value": 7 },
+      { "name": "Sep", "value": 7 },
+      { "name": "Oct", "value": 5 },
+      { "name": "Nov", "value": 6 },
+      { "name": "Dec", "value": 8 }
+    ]
+  },
+ "rows": [
+  { "id": 1, "name": "Anita", "email": "anita@example.com", "mobile": "9123456780", "company": "ABC Pvt Ltd", "designation": "Manager", "mainService": "Auditing", "subService": "Bookkeeping" },
+  { "id": 2, "name": "Sunil", "email": "sunil@example.com", "mobile": "9876501234", "company": "XYZ Corp", "designation": "Accountant", "mainService": "Auditing", "subService": "Financial Reports" },
+  { "id": 3, "name": "Rohit", "email": "rohit@example.com", "mobile": "9001123345", "company": "LMN Ltd", "designation": "Auditor", "mainService": "Auditing", "subService": "Tax Compliance" },
+  { "id": 4, "name": "Pooja", "email": "pooja@example.com", "mobile": "9011234456", "company": "DEF Pvt Ltd", "designation": "Consultant", "mainService": "Auditing", "subService": "Auditing" },
+  { "id": 5, "name": "Vikas", "email": "vikas@example.com", "mobile": "9022345567", "company": "GHI Corp", "designation": "Analyst", "mainService": "Auditing", "subService": "Payroll" },
+  { "id": 6, "name": "Neha", "email": "neha@example.com", "mobile": "9033456678", "company": "JKL Ltd", "designation": "Executive", "mainService": "Auditing", "subService": "Budgeting" },
+  { "id": 7, "name": "Ramesh", "email": "ramesh@example.com", "mobile": "9044567789", "company": "MNO Pvt Ltd", "designation": "Manager", "mainService": "Auditing", "subService": "Special Accounting" },
+  { "id": 8, "name": "Sonia", "email": "sonia@example.com", "mobile": "9055678890", "company": "PQR Corp", "designation": "Accountant", "mainService": "Auditing", "subService": "Business Advisory" },
+  { "id": 9, "name": "Anil", "email": "anil@example.com", "mobile": "9066789901", "company": "STU Ltd", "designation": "Auditor", "mainService": "Auditing", "subService": "Bookkeeping" },
+  { "id": 10, "name": "Rekha", "email": "rekha@example.com", "mobile": "9077890012", "company": "VWX Pvt Ltd", "designation": "Consultant", "mainService": "Auditing", "subService": "Financial Reports" }
+]
+
+}
