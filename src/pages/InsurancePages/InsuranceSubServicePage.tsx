@@ -132,29 +132,6 @@ const InsuranceSubServicePage: React.FC = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [showInsuranceForm, setShowInsuranceForm] = useState(false);
 
-  // const insuranceDetails: Record<string, InsuranceDetails> = {
-  //   Liability: {
-  //     description:
-  //       "Protects against damages you cause to others. Legal support included.",
-  //     priceRange: "₹2 per day",
-  //     offer: "Special Offer: our customers Only",
-  //   },
-  //   Comprehensive: {
-  //     description:
-  //       "Covers accidents, theft, fire, and natural disasters. Peace of mind guaranteed.",
-  //     priceRange: "₹2 per day",
-  //     offer: "Limited Time: 15% Off",
-  //   },
-  //   ZeroDep: {
-  //     description:
-  //       "Full replacement cost of parts without depreciation. Ideal for new vehicles.",
-  //     priceRange: "₹2 per day",
-  //     offer: "Bonus: Free Roadside Assistance",
-  //   },
-  //   ...bannerContent,
-  // };
-
-
   const insuranceDetails: Record<string, any> = {
     "Two Wheeler": {
       Liability: {
@@ -209,24 +186,24 @@ const InsuranceSubServicePage: React.FC = () => {
       ],
       extraLinks: [
         {
-          label: "1Cr Life Cover @ ₹512/m*",
-          url: "https://smartcare.sbilife.co.in/epolicy/SmartShieldPlus/UI/PersonalDetailsMinor.aspx?",
+          label: "Tata AIG General Insurance",
+          url: "https://www.tataaig.com/health-insurance?utm_source=google&utm_medium=cpc&utm_campaign={LS_Health_Search_Brand_EM_ZoneB}-tata%20aig%20health%20insurance-21385213918-176933957277-kwd-938129999184&utm_content=749634442203&gad_source=1&gad_campaignid=21385213918&gbraid=0AAAAACQTGPOQ6_3696JdLGh-BqkSlMK6T&gclid=CjwKCAiAlfvIBhA6EiwAcErpyd_sn7QzxSQ-LHhVSqxJSdUCHS9blx9RGu",
         },
         {
-          label: "2Cr Life Cover @ ₹842/m*",
-          url: "https://smartcare.sbilife.co.in/epolicy/SmartShieldPremier/UI/investment-details.aspx?utm_source=google&utm_medium=search&utm_campaign=LS_SBI_SSPL_Brand_Core_EM_PI&utm_adgroup=Core&utm_term=sbi%20life&utm_network=g&utm_location=9198441&utm_device=c&utm_extension=sitelink_2Cr_SSPR&utm_content=e",
+          label: "Reliance General Insurance",
+          url: "https://www.reliancegeneral.co.in/health-insurance/health-gain-insurance?utm_source=Google&utm_medium=cpc&utm_campaign=RGI_Health_Gain_Search_Brand_P1_Cities_Exact&utm_content=reliance%20health%20insurance&gad_source=1&gad_campaignid=17612010958&gbraid=0AAAAADlqmZczuRcCCp5dmfKbm6KXo4XLR&gclid=CjwKCAiAlfvIBhA6EiwAcErpyc-iVzidWR_IKeTjU2ZTK_QmgjNJDShPMDPbseys05CdqbH_suYp1xoCxXIQAvD_BwE",
         },
         {
-          label: "Retirement Plan",
-          url: "https://smartcare.sbilife.co.in/epolicy/RetireSmartPlus/UI/investment-details.aspx?utm_source=google&utm_medium=search&utm_campaign=LS_SBI_SSPL_Brand_Core_EM_PI&utm_adgroup=Core&utm_term=sbi%20life&utm_network=g&utm_location=9198441&utm_device=c&utm_extension=sitelink_Retire_Plan&utm_content=e",
+          label: "HDFC ERGO General Insurance",
+          url: "https://www.hdfcergo.com/campaigns/hdfc-ergo-health-insurance-2?&utm_source=google_search_1&utm_medium=cpc&utm_campaign=Health_Search_Brand-Product_Neev-Phrase&utm_adgroup=Optima-Secure&adid=633038850160&utm_term=hdfc%20optima%20secure&utm_network=g&utm_matchtype=p&utm_device=c&utm_location=9062064&utm_sitelink={sitelink}&utm_placement=&ci=googlesearch&gad_source=1&gad_campaignid=17367270194&gbraid=0AAAAADy0Cui-nrbwfGDGNkmTlFZKr9vtT&gclid=CjwKCAiAlfvIBhA6EiwAcErpyYmHBSWlxMEXR72VClRrhPPT9H5S9UMpUTlanQy4P_0pgeU8SfKb4xoCYUoQAvD_BwE",
         },
         {
-          label: "Child Plan",
-          url: "https://smartcare.sbilife.co.in/epolicy/SmartScholarPlus/UI/investment-details.aspx?",
+          label: "CICI Lombard General Insurance",
+          url: "https://www.icicilombard.com/health-insurance/elevate-health-policy?utm_source=google_search&utm_medium=CPC&utm_campaign=Health_Search_Generic_Apr24&utm_adgroup=Generic_Health_Plan&utm_keyword=health%20insurance%20plans&utm_device=c&utm_ad=772973197846&utm_placement=&utm_network=g&utm_matchtype=e&gad_source=1&gad_campaignid=21154539756&gbraid=0AAAAADqKtDEtrht3UYoVthSDktXSJldb3&gclid=CjwKCAiAlfvIBhA6EiwAcErpyddNa0tDKfxUXwxX3Ii0d14ZZwC0_9Kh9gfRdGI1xAdQ3pztwP4OsRoC6sIQAvD_BwE",
         },
         {
-          label: "Accidental Benefit",
-          url: "https://smartcare.sbilife.co.in/epolicy/SmartShieldPlus/UI/PersonalDetailsMinor.aspx?",
+          label: "Care Health Insurance",
+          url: "https://www.careinsurance.com/health-insurance/",
         },
       ],
     },
@@ -242,16 +219,16 @@ const InsuranceSubServicePage: React.FC = () => {
         "Tax benefits under section 80C",
         "Flexible policy terms",
       ],
-      extraLinks: [
-        {
-          label: "eShield Insta Plan Overview",
-          url: "https://www.sbilife.co.in/en/individual-life-insurance/protection-plans/eshield-insta",
-        },
-        {
-          label: "Smart Shield Plus Plan Overview",
-          url: "https://www.sbilife.co.in/en/individual-life-insurance/protection-plans/smart-shield-plus",
-        },
-      ],
+      // extraLinks: [
+      //   {
+      //     label: "eShield Insta Plan Overview",
+      //     url: "https://www.sbilife.co.in/en/individual-life-insurance/protection-plans/eshield-insta",
+      //   },
+      //   {
+      //     label: "Smart Shield Plus Plan Overview",
+      //     url: "https://www.sbilife.co.in/en/individual-life-insurance/protection-plans/smart-shield-plus",
+      //   },
+      // ],
     },
   };
 
@@ -286,28 +263,6 @@ const InsuranceSubServicePage: React.FC = () => {
       }}
       className="relative w-full pt-10"
     >
-      {/* Dynamic Banner */}
-      {/* <section className="w-full mb-10">
-        <div className="w-full bg-gradient-to-r from-[#3726E7] via-[#2996F7] to-[#FB7196] flex flex-col md:flex-row items-center justify-center py-10 md:py-16 px-4 sm:px-6 gap-6 md:gap-8">
-          <div className="w-full md:w-1/2 flex justify-center md:justify-end order-1 md:order-2">
-            <img
-              src={selectedDetails.image || "/images/default.png"}
-              alt={selectedDetails.title}
-              className="w-28 h-28 sm:w-36 sm:h-36 md:w-64 md:h-64 object-cover rounded-full shadow-lg"
-            />
-          </div>
-
-          <div className="w-full md:w-1/2 text-center md:text-left max-w-xl order-2 md:order-1 md:pl-6">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-lato font-semibold mb-3 md:mb-4 text-white leading-snug">
-              {selectedDetails.title}
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg font-lato text-white leading-relaxed">
-              {selectedDetails.description}
-            </p>
-          </div>
-        </div>
-      </section> */}
-
       <section className="w-full mb-10 relative">
         {/* <div className="w-full bg-gradient-to-r from-[#3726E7] via-[#2996F7] to-[#FB7196] flex flex-col md:flex-row items-center justify-center py-10 md:py-16 px-4 sm:px-6 gap-6 md:gap-8 relative"> */}
         <div
@@ -401,22 +356,7 @@ const InsuranceSubServicePage: React.FC = () => {
               placeholder="Search plans or offers..."
               className="w-full p-3 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3726E7] transition shadow text-sm sm:text-base"
             />
-            {/* {isFocused && filteredSuggestions.length > 0 && (
-              <ul className="absolute z-10 w-full bg-white border border-blue-200 rounded-xl mt-1 shadow-lg max-h-48 overflow-y-auto text-sm sm:text-base">
-                {filteredSuggestions.map((suggestion, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="px-4 py-2 hover:bg-[#eef2ff] cursor-pointer"
-                    onClick={() => handleSelectSuggestion(suggestion)}
-                  >
-                    {suggestion}
-                  </motion.li>
-                ))}
-              </ul>
-            )} */}
+
             {isFocused && filteredSuggestions.length > 0 && (
               <ul className="absolute z-10 w-full bg-white border border-blue-200 rounded-xl mt-1 shadow-lg max-h-48 overflow-y-auto text-sm sm:text-base">
                 {filteredSuggestions.map((suggestion, index) => (
@@ -524,26 +464,6 @@ const InsuranceSubServicePage: React.FC = () => {
             </ul>
           )}
 
-          {/* {insuranceDetails[insuranceType].extraLinks && (
-            <div className="mb-4 sm:mb-6">
-              <h3 className="font-semibold text-base sm:text-lg text-gray-800 mb-2">
-                Useful Links
-              </h3>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                {insuranceDetails[insuranceType].extraLinks?.map(
-                  (link, idx) => (
-                    <motion.li
-                      key={idx}
-                      whileHover={{ scale: 1.05, x: 3 }}
-                      className="flex items-center gap-2 bg-white/90 px-3 sm:px-4 py-2 rounded-lg shadow-sm border hover:border-[#3726E7] cursor-pointer text-[#2996F7] font-medium text-sm sm:text-base"
-                    >
-                      <FaLink /> {link}
-                    </motion.li>
-                  )
-                )}
-              </ul>
-            </div>
-          )} */}
           {insuranceDetails[insuranceType].extraLinks && (
             <div className="mb-4 sm:mb-6">
               <h3 className="font-semibold text-base sm:text-lg text-gray-800 mb-2">
