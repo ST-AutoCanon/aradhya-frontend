@@ -111,11 +111,11 @@ function Navbar({ onLoginClick, user, onLogout }: NavbarProps) {
 
           <div className="flex items-center gap-2 text-white">
             <a
-              href="tel:+919876543210"
+              href="tel:+916366295968"
               className="flex items-center gap-2 text-white hover:text-orange-300"
             >
               <Phone size={18} />
-              <span>+91 98765 43210</span>
+              <span>+91 63662 95968</span>
             </a>
           </div>
         </div>
@@ -234,12 +234,12 @@ function Navbar({ onLoginClick, user, onLogout }: NavbarProps) {
           </a>
 
           <a
-            href="tel:+919876543210"
+            href="tel:+916366295968"
             onClick={handleMobileLinkClick}
             className="flex items-center gap-2 text-white hover:text-orange-300 w-full mt-2"
           >
             <Phone size={18} />
-            <span>+91 98765 43210</span>
+            <span>+91 63662 95968</span>
           </a>
 
           {user ? (
