@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Dialog } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+
 import { motion } from "framer-motion";
 import { Upload, X } from "lucide-react";
 import axios from "axios";
@@ -113,12 +114,7 @@ export default function Careers() {
                   <h2 className="text-lg sm:text-xl font-semibold text-[#3726E7]">
                     {job.title}
                   </h2>
-                  {/* <p className="text-gray-600 mt-1 text-sm sm:text-base">
-                    {job.location}
-                  </p>
-                  <span className="text-sm sm:text-sm text-[#2996F7] font-medium">
-                    {job.type}
-                  </span> */}
+
                   <div className="flex flex-wrap gap-2 mt-2 text-gray-600 text-sm">
                     <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
                       {job.location}
@@ -149,121 +145,18 @@ export default function Careers() {
       </div>
 
       {/* Apply Modal */}
-      {/* <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
-        <div className="fixed inset-0 bg-black/40"></div>
-
-        <div className="fixed inset-0 flex items-center justify-center p-4 sm:p-6 overflow-auto">
-          <Dialog.Panel className="bg-white rounded-2xl p-6 sm:p-8 w-full max-w-md sm:max-w-lg shadow-xl">
-            <div className="flex justify-between items-center mb-4">
-              <Dialog.Title className="text-xl sm:text-2xl font-bold text-[#3726E7]">
-                Apply for {selectedJob?.title}
-              </Dialog.Title>
-              <button onClick={closeModal}>
-                <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 hover:text-red-500" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
-                {[
-                  "fullName",
-                  "email",
-                  "phone",
-                  "qualification",
-                  "experience",
-                ].map((field) => (
-                  <div key={field}>
-                    <label className="block text-gray-700 font-medium text-sm sm:text-base">
-                      {field === "fullName"
-                        ? "Full Name"
-                        : field.charAt(0).toUpperCase() + field.slice(1)}
-                    </label>
-                    <input
-                      type={field === "email" ? "email" : "text"}
-                      pattern={
-                        field === "phone" || field === "experience"
-                          ? "\\d*"
-                          : undefined
-                      }
-                      maxLength={field === "phone" ? 10 : undefined}
-                      required={["fullName", "email", "phone"].includes(field)}
-                      placeholder={
-                        field === "fullName"
-                          ? "Enter your full name"
-                          : field === "email"
-                          ? "Enter your email"
-                          : field === "phone"
-                          ? "Enter your phone number"
-                          : `Enter your ${field}`
-                      }
-                      value={(form as any)[field]}
-                      onChange={(e) =>
-                        setForm({ ...form, [field]: e.target.value })
-                      }
-                      className="w-full border rounded-xl p-2 sm:p-3 mt-1 text-sm sm:text-base"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              <div>
-                <label className="block text-gray-700 font-medium text-sm sm:text-base">
-                  Upload Resume (optional)
-                </label>
-                <div className="mt-1 border rounded-xl p-3 sm:p-4 flex items-center justify-between">
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={handleFileUpload}
-                    className="text-sm sm:text-base"
-                  />
-                  <Upload className="w-5 h-5 sm:w-6 sm:h-6 text-[#3726E7]" />
-                </div>
-                {resume && (
-                  <p className="text-xs sm:text-sm text-green-600 mt-1">
-                    Selected: {resume.name}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-gray-700 font-medium text-sm sm:text-base">
-                  Comments (optional)
-                </label>
-                <textarea
-                  value={form.comments}
-                  onChange={(e) =>
-                    setForm({ ...form, comments: e.target.value })
-                  }
-                  className="w-full border rounded-xl p-2 sm:p-3 mt-1 text-sm sm:text-base"
-                  rows={3}
-                  placeholder="Add any additional comments"
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-[#2996F7] text-white py-2 sm:py-3 rounded-xl hover:bg-[#3726E7] transition text-sm sm:text-base"
-              >
-                Submit Application
-              </button>
-            </form>
-          </Dialog.Panel>
-        </div>
-      </Dialog> */}
-
       <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
         {/* Overlay */}
         <div className="fixed inset-0 bg-black/40" />
 
         {/* Centered Panel */}
         <div className="fixed inset-0 flex items-center justify-center p-2 sm:p-4 overflow-auto">
-          <Dialog.Panel className="bg-white rounded-xl p-4 sm:p-5 w-full max-w-sm sm:max-w-md shadow-lg">
+          <DialogPanel className="bg-white rounded-xl p-4 sm:p-5 w-full max-w-sm sm:max-w-md shadow-lg">
             {/* Header */}
             <div className="flex justify-between items-center mb-3">
-              <Dialog.Title className="text-lg sm:text-xl font-semibold text-[#3726E7]">
+              <DialogTitle className="text-lg sm:text-xl font-semibold text-[#3726E7]">
                 Apply for {selectedJob?.title}
-              </Dialog.Title>
+              </DialogTitle>
               <button onClick={closeModal}>
                 <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 hover:text-red-500" />
               </button>
@@ -285,30 +178,44 @@ export default function Careers() {
                         ? "Full Name"
                         : field.charAt(0).toUpperCase() + field.slice(1)}
                     </label>
-                    <input
-                      type={field === "email" ? "email" : "text"}
-                      pattern={
-                        field === "phone" || field === "experience"
-                          ? "\\d*"
-                          : undefined
-                      }
-                      maxLength={field === "phone" ? 10 : undefined}
-                      required={["fullName", "email", "phone"].includes(field)}
-                      placeholder={
-                        field === "fullName"
-                          ? "Enter your full name"
-                          : field === "email"
-                          ? "Enter your email"
-                          : field === "phone"
-                          ? "Enter your phone number"
-                          : `Enter your ${field}`
-                      }
-                      value={(form as any)[field]}
-                      onChange={(e) =>
-                        setForm({ ...form, [field]: e.target.value })
-                      }
-                      className="w-full border rounded-lg p-2 text-sm sm:text-sm mt-1"
-                    />
+
+                    {/* 🔥 Experience changed to NUMBER input */}
+                    {field === "experience" ? (
+                      <input
+                        type="number"
+                        min="0"
+                        max="50"
+                        placeholder="Years of experience"
+                        value={form.experience}
+                        onChange={(e) =>
+                          setForm({ ...form, experience: e.target.value })
+                        }
+                        className="w-full border rounded-lg p-2 text-sm sm:text-sm mt-1"
+                      />
+                    ) : (
+                      <input
+                        type={field === "email" ? "email" : "text"}
+                        pattern={field === "phone" ? "\\d*" : undefined}
+                        maxLength={field === "phone" ? 10 : undefined}
+                        required={["fullName", "email", "phone"].includes(
+                          field
+                        )}
+                        placeholder={
+                          field === "fullName"
+                            ? "Enter your full name"
+                            : field === "email"
+                            ? "Enter your email"
+                            : field === "phone"
+                            ? "Enter your phone number"
+                            : `Enter your ${field}`
+                        }
+                        value={(form as any)[field]}
+                        onChange={(e) =>
+                          setForm({ ...form, [field]: e.target.value })
+                        }
+                        className="w-full border rounded-lg p-2 text-sm sm:text-sm mt-1"
+                      />
+                    )}
                   </div>
                 ))}
               </div>
@@ -318,15 +225,30 @@ export default function Careers() {
                 <label className="block text-gray-700 text-sm sm:text-sm font-medium">
                   Upload Resume (optional)
                 </label>
+
                 <div className="mt-1 border rounded-lg p-2 sm:p-3 flex items-center justify-between">
+                  {/* Hidden input */}
                   <input
+                    id="resumeInput"
                     type="file"
                     accept=".pdf,.doc,.docx"
                     onChange={handleFileUpload}
                     className="text-sm sm:text-sm"
+                    style={{ display: "none" }}
                   />
-                  <Upload className="w-4 h-4 sm:w-5 sm:h-5 text-[#3726E7]" />
+
+                  <label
+                    htmlFor="resumeInput"
+                    className="flex-1 cursor-pointer text-sm sm:text-sm"
+                  >
+                    Choose File
+                  </label>
+
+                  <label htmlFor="resumeInput" className="cursor-pointer">
+                    <Upload className="w-4 h-4 sm:w-5 sm:h-5 text-[#3726E7]" />
+                  </label>
                 </div>
+
                 {resume && (
                   <p className="text-xs text-green-600 mt-1">
                     Selected: {resume.name}
@@ -358,7 +280,7 @@ export default function Careers() {
                 Submit Application
               </button>
             </form>
-          </Dialog.Panel>
+          </DialogPanel>
         </div>
       </Dialog>
     </div>

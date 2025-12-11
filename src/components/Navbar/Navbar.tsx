@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 interface NavbarProps {
   onLoginClick: () => void;
@@ -28,8 +28,6 @@ function Navbar({ onLoginClick, user, onLogout }: NavbarProps) {
   };
 
   return (
-    // <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-[#3726E7] via-[#2996F7] to-[#FB7196] px-4 py-3 md:px-12 md:py-4">
-    //   <div className="flex items-center justify-between w-full max-w-[1700px] mx-auto">
     <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-[#3726E7] via-[#2996F7] to-[#FB7196] px-4 py-3 md:px-12 md:py-4">
       <div className="flex items-center justify-between w-full max-w-screen-2xl mx-auto">
         {/* Logo */}
@@ -43,12 +41,27 @@ function Navbar({ onLoginClick, user, onLogout }: NavbarProps) {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8 text-white font-medium text-sm md:text-[16px]">
-          <Link to="/" className="hover:text-orange-300">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-orange-300 font-semibold"
+                : "hover:text-orange-300"
+            }
+          >
             Home
-          </Link>
-          <Link to="/about" className="hover:text-orange-300">
+          </NavLink>
+
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive
+                ? "text-orange-300 font-semibold" // active effect
+                : "hover:text-orange-300"
+            }
+          >
             About
-          </Link>
+          </NavLink>
 
           {/* Services Dropdown */}
           <div
@@ -59,28 +72,6 @@ function Navbar({ onLoginClick, user, onLogout }: NavbarProps) {
             <span className="cursor-pointer hover:text-orange-300 select-none">
               Services
             </span>
-            {/* {servicesOpen && (
-              <div className="absolute top-full left-0 mt-2 w-48 bg-white/20 backdrop-blur-md rounded-lg shadow-lg py-2 z-50">
-                <Link
-                  to="/insurance"
-                  className="block px-4 py-2 text-white hover:bg-white/30 transition"
-                >
-                  Insurance Services
-                </Link>
-                <Link
-                  to="/auditing"
-                  className="block px-4 py-2 text-white hover:bg-white/30 transition"
-                >
-                  Auditing Services
-                </Link>
-                <Link
-                  to="/booksStationary"
-                  className="block px-4 py-2 text-white hover:bg-white/30 transition"
-                >
-                  Books & Stationery Services
-                </Link>
-              </div>
-            )} */}
             {servicesOpen && (
               <div className="absolute top-full left-0 mt-2 w-48 bg-white/20 backdrop-blur-md rounded-lg shadow-lg py-2 z-50">
                 <Link
@@ -104,21 +95,27 @@ function Navbar({ onLoginClick, user, onLogout }: NavbarProps) {
               </div>
             )}
           </div>
-
-          <Link to="/contact" className="hover:text-orange-300">
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive
+                ? "text-orange-300 font-semibold"
+                : "hover:text-orange-300"
+            }
+          >
             Contact Us
-          </Link>
+          </NavLink>
           <a href="/brochure.pdf" download className="hover:text-orange-300">
             Brochure
           </a>
 
           <div className="flex items-center gap-2 text-white">
             <a
-              href="tel:+919876543210"
+              href="tel:+916366295968"
               className="flex items-center gap-2 text-white hover:text-orange-300"
             >
               <Phone size={18} />
-              <span>+91 98765 43210</span>
+              <span>+91 63662 95968</span>
             </a>
           </div>
         </div>
@@ -156,20 +153,29 @@ function Navbar({ onLoginClick, user, onLogout }: NavbarProps) {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="flex flex-col items-start gap-3 mt-3 px-4 md:hidden text-white font-medium bg-gradient-to-r from-[#3726E7]/80 via-[#2996F7]/80 to-[#FB7196]/80 backdrop-blur-sm rounded-lg py-3">
-          <Link
+          <NavLink
             to="/"
             onClick={handleMobileLinkClick}
-            className="hover:text-orange-300 w-full"
+            className={({ isActive }) =>
+              isActive
+                ? "text-orange-300 font-semibold"
+                : "hover:text-orange-300"
+            }
           >
             Home
-          </Link>
-          <Link
+          </NavLink>
+
+          <NavLink
             to="/about"
             onClick={handleMobileLinkClick}
-            className="hover:text-orange-300 w-full"
+            className={({ isActive }) =>
+              isActive
+                ? "text-orange-300 font-semibold"
+                : "hover:text-orange-300"
+            }
           >
             About
-          </Link>
+          </NavLink>
 
           {/* Mobile Services Dropdown */}
           <div className="w-full">
@@ -206,13 +212,17 @@ function Navbar({ onLoginClick, user, onLogout }: NavbarProps) {
             )}
           </div>
 
-          <Link
+          <NavLink
             to="/contact"
             onClick={handleMobileLinkClick}
-            className="hover:text-orange-300 w-full"
+            className={({ isActive }) =>
+              isActive
+                ? "text-orange-300 font-semibold"
+                : "hover:text-orange-300"
+            }
           >
             Contact Us
-          </Link>
+          </NavLink>
 
           <a
             href="/brochure.pdf"
@@ -224,12 +234,12 @@ function Navbar({ onLoginClick, user, onLogout }: NavbarProps) {
           </a>
 
           <a
-            href="tel:+919876543210"
+            href="tel:+916366295968"
             onClick={handleMobileLinkClick}
             className="flex items-center gap-2 text-white hover:text-orange-300 w-full mt-2"
           >
             <Phone size={18} />
-            <span>+91 98765 43210</span>
+            <span>+91 63662 95968</span>
           </a>
 
           {user ? (

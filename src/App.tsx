@@ -15,7 +15,7 @@
 
 // import InsuranceSubServicePage from "./pages/InsurancePages/InsuranceSubServicePage";
 // import AuditingMainPage from "./pages/AuditingPages/AuditingMainpage";
-// import BooksStationaryMainPage from "./pages/BooksStationary/BooksStationaryMainPage";    
+// import BooksStationaryMainPage from "./pages/BooksStationary/BooksStationaryMainPage";
 // import AuditingSubServicePage from "./pages/AuditingPages/AuditingSubServicePage";
 // import BooksStationarySubService from "./pages/BooksStationary/BooksStationarySubService";
 // import FillDetailsBooksStationary from "./pages/FillDetails/FillDetailsBooksStationary";
@@ -147,9 +147,6 @@
 
 // export default App;
 
-
-
-
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -197,14 +194,25 @@ const App = () => {
     const savedUser = localStorage.getItem("user");
     const consent = localStorage.getItem("cookiesAccepted") === "true";
 
+    // if (savedToken && savedUser && consent) {
+    //   setToken(savedToken);
+    //   setUser(JSON.parse(savedUser));
+    //   navigate("/admin"); // redirect automatically
+    // }
     if (savedToken && savedUser && consent) {
       setToken(savedToken);
       setUser(JSON.parse(savedUser));
-      navigate("/admin"); // redirect automatically
+
+      // Redirect only if user is at home page
+      if (location.pathname === "/") {
+        navigate("/admin");
+      }
     }
 
+    //   setAuthLoading(false);
+    // }, [navigate]);
     setAuthLoading(false);
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   const handleLoginSuccess = (
     newToken: string,
@@ -258,10 +266,8 @@ const App = () => {
           <Route path="/careers" element={<Careers />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
 
-
-
-                <Route path="/insurance" element={<InsuranaceMainPage />} />
-           <Route
+          <Route path="/insurance" element={<InsuranaceMainPage />} />
+          <Route
             path="/insurance-details"
             element={<InsuranceSubServicePage />}
           />
@@ -280,7 +286,6 @@ const App = () => {
           />
 
           <Route path="/form/books" element={<FillDetailsBooksStationary />} />
-
 
           {/* Protected Admin Routes */}
           <Route
