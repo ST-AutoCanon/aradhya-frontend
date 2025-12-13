@@ -1,270 +1,158 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-// Checkbox Component
-const Checkbox: React.FC<{ checked: boolean; onClick: () => void }> = ({
-  checked,
-  onClick,
-}) => (
-  <div
-    onClick={onClick}
-    role="button"
-    aria-pressed={checked}
-    className={`w-5 h-5 rounded-md border flex items-center justify-center cursor-pointer transition ${
-      checked ? "bg-gray-500 border-gray-500" : "bg-white border-gray-300"
-    }`}
-  >
-    {checked && (
-      <div className="w-2.5 h-1.5 border-l-2 border-b-2 border-white rotate-[-45deg]" />
-    )}
-  </div>
-);
-
-interface JobApplication {
+interface Job {
   _id: string;
-  jobId:
-    | {
-        _id: string;
-        title: string;
-        location: string;
-        type: string;
-      }
-    | string;
-  jobTitle: string;
-  fullName: string;
-  email: string;
-  phone: string;
-  qualification: string;
-  education?: string;
-  experience: number;
-  comments?: string;
-  resume?: string;
-  status: "pending" | "shortlisted" | "rejected";
+  title: string;
+  location: string;
+  type: string;
+  description: string;
 }
 
 export default function AdminViewJobs() {
-  const [applications, setApplications] = useState<JobApplication[]>([]);
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingForm, setEditingForm] = useState<Job | null>(null);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  // Fetch all job applications
-  const fetchApplications = async () => {
+  const fetchJobs = async () => {
     try {
-      const res = await axios.get(`${backendUrl}/api/job-applications`);
-      setApplications(res.data);
+      const res = await axios.get(`${backendUrl}/api/jobs`);
+      setJobs(res.data);
     } catch (err) {
-      console.error("Error fetching applications:", err);
-    }
-  };
-
-  // Handle checkbox selection
-  const toggleSelect = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-  };
-
-  // Delete single application
-  const deleteSingle = async (id: string) => {
-    if (!confirm("Delete this application?")) return;
-    try {
-      await axios.delete(`${backendUrl}/api/job-applications/${id}`);
-      fetchApplications();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // Delete multiple applications
-  const deleteMultiple = async () => {
-    if (selectedIds.length === 0) return alert("No applications selected.");
-    if (!confirm("Delete selected applications?")) return;
-
-    try {
-      await axios.post(`${backendUrl}/api/job-applications/delete-multiple`, {
-        ids: selectedIds,
-      });
-      setSelectedIds([]);
-      fetchApplications();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // Update status with confirmation
-  const updateStatus = async (
-    id: string,
-    currentStatus: JobApplication["status"],
-    newStatus: JobApplication["status"]
-  ) => {
-    if (currentStatus === newStatus) return;
-    if (!confirm(`Do you want to update the status to "${newStatus}"?`)) return;
-
-    try {
-      await axios.patch(`${backendUrl}/api/job-applications/${id}/status`, {
-        status: newStatus,
-      });
-      fetchApplications();
-    } catch (err) {
-      console.error(err);
+      console.error("Error fetching jobs:", err);
     }
   };
 
   useEffect(() => {
-    fetchApplications();
+    fetchJobs();
   }, []);
 
+  const handleUpdateJob = async (id: string, form: Job) => {
+    try {
+      await axios.put(`${backendUrl}/api/jobs/${id}`, form);
+      setEditingId(null);
+      setEditingForm(null);
+      fetchJobs();
+      alert("Job updated successfully!"); // ✅ Alert added
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this job?")) return;
+    try {
+      await axios.delete(`${backendUrl}/api/jobs/${id}`);
+      fetchJobs();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 md:p-10">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
-        All Job Applications
+    <div className="min-h-screen bg-gray-50 text-gray-900 p-4 sm:p-6 md:p-10 w-full max-w-7xl mx-auto">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center text-gray-800">
+        Manage Jobs
       </h1>
 
-      {/* Delete Multiple Button */}
-      <div className="mb-4 flex justify-end">
-        <button
-          onClick={deleteMultiple}
-          className="flex items-center gap-2 w-full sm:w-auto px-4 py-2 rounded-lg bg-white text-black text-sm font-medium transition hover:bg-black hover:text-white whitespace-nowrap border border-gray-300"
-        >
-          <span>Delete Selected</span>
-        </button>
-      </div>
-
-      <div className="overflow-x-auto shadow-lg">
-        <table className="min-w-full bg-white border border-gray-200 divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-3 py-2 border-b border-gray-200">
-                <Checkbox
-                  checked={
-                    selectedIds.length === applications.length &&
-                    applications.length > 0
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-10">
+        {jobs.map((job) => (
+          <div
+            key={job._id}
+            className="bg-white rounded-xl shadow p-6 hover:shadow-lg transition w-full flex flex-col justify-between"
+          >
+            {editingId === job._id && editingForm ? (
+              <>
+                <input
+                  type="text"
+                  value={editingForm.title}
+                  onChange={(e) =>
+                    setEditingForm({ ...editingForm, title: e.target.value })
                   }
-                  onClick={() =>
-                    setSelectedIds(
-                      selectedIds.length === applications.length
-                        ? []
-                        : applications.map((a) => a._id)
-                    )
-                  }
+                  className="border border-gray-300 p-2 rounded w-full mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
                 />
-              </th>
-              <th className="px-4 py-2 text-left border-b border-gray-200">
-                Job Title
-              </th>
-              <th className="px-4 py-2 text-left border-b border-gray-200">
-                Applicant
-              </th>
-              <th className="px-4 py-2 text-left border-b border-gray-200">
-                Email
-              </th>
-              <th className="px-4 py-2 text-left border-b border-gray-200">
-                Phone
-              </th>
-              <th className="px-4 py-2 text-left border-b border-gray-200">
-                Qualification
-              </th>
-              <th className="px-4 py-2 text-left border-b border-gray-200">
-                Experience
-              </th>
-              <th className="px-4 py-2 text-left border-b border-gray-200">
-                Status
-              </th>
-              <th className="px-4 py-2 text-left border-b border-gray-200">
-                Resume
-              </th>
-              <th className="px-4 py-2 text-left border-b border-gray-200">
-                Actions
-              </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {applications.length > 0 ? (
-              applications.map((app) => (
-                <tr key={app._id} className="hover:bg-gray-50">
-                  <td className="px-3 py-2 border-b border-gray-200">
-                    <Checkbox
-                      checked={selectedIds.includes(app._id)}
-                      onClick={() => toggleSelect(app._id)}
-                    />
-                  </td>
-
-                  <td className="px-4 py-2 border-b border-gray-200 font-semibold text-gray-800">
-                    {app.jobTitle}
-                  </td>
-
-                  <td className="px-4 py-2 border-b border-gray-200">
-                    {app.fullName}
-                  </td>
-                  <td className="px-4 py-2 border-b border-gray-200">
-                    {app.email}
-                  </td>
-                  <td className="px-4 py-2 border-b border-gray-200">
-                    {app.phone}
-                  </td>
-                  <td className="px-4 py-2 border-b border-gray-200">
-                    {app.qualification}
-                  </td>
-                  <td className="px-4 py-2 border-b border-gray-200">
-                    {app.experience} yrs
-                  </td>
-
-                  <td className="px-4 py-2 border-b border-gray-200">
-                    <select
-                      value={app.status}
-                      onChange={(e) =>
-                        updateStatus(
-                          app._id,
-                          app.status,
-                          e.target.value as JobApplication["status"]
-                        )
-                      }
-                      className="border border-gray-200 rounded px-2 py-1 bg-white"
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="shortlisted">Shortlisted</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
-                  </td>
-
-                  <td className="px-4 py-2 border-b border-gray-200">
-                    {app.resume ? (
-                      <a
-                        href={`${backendUrl}/uploads/resumes/${app.resume}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 underline"
-                      >
-                        View
-                      </a>
-                    ) : (
-                      "-"
-                    )}
-                  </td>
-
-                  <td className="px-4 py-2 border-b border-gray-200">
-                    <button
-                      onClick={() => deleteSingle(app._id)}
-                      className="px-3 py-1 border border-gray-300 text-black rounded hover:bg-black hover:text-white transition"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
+                <input
+                  type="text"
+                  value={editingForm.location}
+                  onChange={(e) =>
+                    setEditingForm({ ...editingForm, location: e.target.value })
+                  }
+                  className="border border-gray-300 p-2 rounded w-full mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                />
+                <input
+                  type="text"
+                  value={editingForm.type}
+                  onChange={(e) =>
+                    setEditingForm({ ...editingForm, type: e.target.value })
+                  }
+                  className="border border-gray-300 p-2 rounded w-full mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                />
+                <textarea
+                  value={editingForm.description}
+                  onChange={(e) =>
+                    setEditingForm({
+                      ...editingForm,
+                      description: e.target.value,
+                    })
+                  }
+                  className="border border-gray-300 p-2 rounded w-full mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                />
+                <div className="flex gap-3 mt-2">
+                  <button
+                    onClick={() =>
+                      editingForm && handleUpdateJob(job._id, editingForm)
+                    }
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-black border border-black text-sm font-medium transition hover:bg-black hover:text-white"
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEditingId(null);
+                      setEditingForm(null);
+                    }}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-black border border-gray-500 text-sm font-medium transition hover:bg-gray-500 hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
             ) : (
-              <tr>
-                <td
-                  colSpan={10}
-                  className="px-4 py-6 text-center text-gray-500"
-                >
-                  No applications found.
-                </td>
-              </tr>
+              <>
+                <h3 className="text-xl font-bold text-blue-600">{job.title}</h3>
+                <div className="flex flex-wrap gap-2 mt-2 text-gray-600 text-sm">
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                    {job.location}
+                  </span>
+                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded">
+                    {job.type}
+                  </span>
+                </div>
+                <p className="text-gray-700 mt-3 line-clamp-4">
+                  {job.description}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                  <button
+                    onClick={() => {
+                      setEditingId(job._id);
+                      setEditingForm(job);
+                    }}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-black border border-black text-sm font-medium transition hover:bg-black hover:text-white"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(job._id)}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-black border border-black text-sm font-medium transition hover:bg-black hover:text-white"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </>
             )}
-          </tbody>
-        </table>
+          </div>
+        ))}
       </div>
     </div>
   );

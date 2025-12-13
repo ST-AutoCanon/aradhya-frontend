@@ -227,12 +227,9 @@ const FillDetailsVehicleDynamic: React.FC<Props> = ({
             inputMode="numeric"
             pattern="[0-9]*"
             maxLength={6}
-            placeholder="Location Pin Code"
+            placeholder="Location/Pin Code"
             value={location}
-            onChange={(e) => {
-              const numericValue = e.target.value.replace(/\D/g, ""); // only digits
-              if (numericValue.length <= 6) setLocation(numericValue); // limit to 6 digits
-            }}
+            onChange={(e) => setLocation(e.target.value)}
             onFocus={() => setFocusField("location")}
             onBlur={() => setFocusField(null)}
             className={`p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C8BD8] text-sm sm:text-base shadow-sm bg-white ${getBorderClass(

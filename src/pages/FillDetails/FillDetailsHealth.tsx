@@ -112,10 +112,9 @@ const FillDetailsHealth: React.FC<Props> = ({
 
       {/* Form Container */}
       <motion.div
-        // className="bg-gradient-to-br from-[#EFF3FF] via-[#E0E7FF] to-[#DDE6FF] 
+        // className="bg-gradient-to-br from-[#EFF3FF] via-[#E0E7FF] to-[#DDE6FF]
         //            p-3 sm:p-3.5 rounded-2xl w-full max-w-[60%] sm:max-w-[45%] md:max-w-[30%] shadow-xl relative z-10"
-           className="bg-gradient-to-br from-[#EFF3FF] via-[#E0E7FF] to-[#DDE6FF] p-8 rounded-2xl w-full max-w-md shadow-xl relative z-10"
-       
+        className="bg-gradient-to-br from-[#EFF3FF] via-[#E0E7FF] to-[#DDE6FF] p-8 rounded-2xl w-full max-w-md shadow-xl relative z-10"
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }}
         exit={{ opacity: 0, y: 40, scale: 0.95, transition: { duration: 0.3 } }}
@@ -180,12 +179,9 @@ const FillDetailsHealth: React.FC<Props> = ({
               type: "text",
             },
             {
-              placeholder: "Location Pin Code",
+              placeholder: "Location/Pin Code",
               value: location,
-              setter: (val: string) => {
-                const numeric = val.replace(/\D/g, "");
-                if (numeric.length <= 6) setLocation(numeric);
-              },
+              setter: setLocation,
               field: "location",
               type: "text",
             },

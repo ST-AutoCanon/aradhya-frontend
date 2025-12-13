@@ -96,7 +96,7 @@ const ContactUs = () => {
           </div>
 
           {/* Careers */}
-          <div className="flex items-start gap-4">
+          {/* <div className="flex items-start gap-4">
             <Mail className="w-6 h-6 text-[#3726E7] mt-1" />
             <div>
               <h2 className="text-xl font-semibold text-[#3726E7]">Careers</h2>
@@ -107,6 +107,23 @@ const ContactUs = () => {
               <a
                 href="/careers"
                 className="inline-block mt-2 text-[#3726E7] font-medium hover:text-[#FB7196]"
+              >
+                View Open Positions →
+              </a>
+            </div>
+          </div> */}
+          <div className="flex items-start gap-4">
+            <Mail className="w-6 h-6 text-[#3726E7] mt-1 flex-shrink-0" />
+
+            <div>
+              <h2 className="text-xl font-semibold text-[#3726E7]">Careers</h2>
+              <p className="mt-1 text-gray-700">
+                We are always looking for passionate and talented people to join
+                our team.
+              </p>
+              <a
+                href="/careers"
+                className="inline-block mt-5 text-[#3726E7] font-medium hover:text-[#FB7196]"
               >
                 View Open Positions →
               </a>

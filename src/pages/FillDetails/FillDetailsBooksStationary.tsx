@@ -16,7 +16,7 @@ const FillDetailsBooksStationary: React.FC<Props> = ({ onClose }) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [companyName, setCompanyName] = useState("");
+  const [schoolName, setschoolName] = useState("");
   const [address, setAddress] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [focusField, setFocusField] = useState<string | null>(null);
@@ -50,7 +50,7 @@ const FillDetailsBooksStationary: React.FC<Props> = ({ onClose }) => {
       formData.append("fullName", fullName);
       formData.append("email", email);
       formData.append("phone", phone);
-      formData.append("companyName", companyName);
+      formData.append("schoolName", schoolName);
       formData.append("address", address);
       formData.append("mainService", mainService);
       formData.append("subService", subService);
@@ -75,7 +75,7 @@ const FillDetailsBooksStationary: React.FC<Props> = ({ onClose }) => {
       setFullName("");
       setEmail("");
       setPhone("");
-      setCompanyName("");
+      setschoolName("");
       setAddress("");
       setFile(null);
     } catch (error: any) {
@@ -194,13 +194,13 @@ const FillDetailsBooksStationary: React.FC<Props> = ({ onClose }) => {
           <motion.input
             type="text"
             placeholder="Name of Company/Trust/Society/School"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-            onFocus={() => setFocusField("companyName")}
+            value={schoolName}
+            onChange={(e) => setschoolName(e.target.value)}
+            onFocus={() => setFocusField("schoolName")}
             onBlur={() => setFocusField(null)}
             className={`p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C8BD8] text-sm sm:text-base shadow-sm bg-white ${getBorderClass(
-              "companyName",
-              companyName
+              "schoolName",
+              schoolName
             )}`}
             variants={fieldVariants}
           />
