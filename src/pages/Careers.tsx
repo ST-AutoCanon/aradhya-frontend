@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+// import { Dialog } from "@headlessui/react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 
 import { motion } from "framer-motion";
@@ -123,9 +124,29 @@ export default function Careers() {
                       {job.type}
                     </span>
                   </div>
-                  <p className="text-gray-700 mt-3 text-sm sm:text-base">
-                    {job.description}
-                  </p>
+                  <div className="relative group">
+                    <p className="text-gray-700 mt-3 text-sm sm:text-base line-clamp-3 cursor-pointer">
+                      {job.description}
+                    </p>
+
+                    {/* Light Tooltip */}
+                    <div
+                      className="
+      absolute z-50 
+      opacity-0 group-hover:opacity-100
+      invisible group-hover:visible
+      transition-all duration-200
+      bg-white text-gray-700
+      text-xs sm:text-sm
+      p-3 rounded-xl
+      shadow-xl border
+      max-w-xs w-max
+      top-full mt-2
+    "
+                    >
+                      {job.description}
+                    </div>
+                  </div>
                 </div>
 
                 <button

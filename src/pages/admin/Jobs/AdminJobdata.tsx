@@ -1,6 +1,6 @@
 import { useState } from "react";
-import AdminAddJobs from "./AdminAddJob";
-import AdminViewJobs from "./AdminViewJobs";
+import AdminAddJobs from "./AdminManageJobs";
+import AdminViewJobs from "./AdminViewAppliedJobs";
 
 export default function AdminJobsData() {
   const [activeTab, setActiveTab] = useState<"dashboard" | "add" | "view">(
@@ -23,13 +23,13 @@ export default function AdminJobsData() {
               className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition cursor-pointer flex flex-col justify-between"
             >
               <h2 className="text-xl font-bold text-indigo-600 mb-2">
-                Add Job
+                Manage Job
               </h2>
               <p className="text-gray-600 mb-4">
-                Click here to add a new job posting.
+                Click here to Manage job posting.
               </p>
               <button className="mt-auto bg-indigo-500 text-white py-2 rounded-xl hover:bg-indigo-600 transition">
-                Add Job
+                Add/update Job
               </button>
             </div>
 
@@ -59,7 +59,7 @@ export default function AdminJobsData() {
             onClick={() => setActiveTab("dashboard")}
             className="mb-6 bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded transition"
           >
-            ← Back to Dashboard
+            ← Back to Dashboardd
           </button>
           <AdminAddJobs />
         </div>
