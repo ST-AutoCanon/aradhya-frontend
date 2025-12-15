@@ -95,6 +95,7 @@ export default function Careers() {
         <h1 className="text-3xl sm:text-4xl font-bold text-[#3726E7] mb-4 sm:mb-6">
           Join Our Team
         </h1>
+        <br></br>
         <p className="text-gray-700 text-base sm:text-lg max-w-3xl mb-10 mt-5">
           We are always looking for passionate and talented individuals to join
           our growing company. Explore current openings and apply easily.
