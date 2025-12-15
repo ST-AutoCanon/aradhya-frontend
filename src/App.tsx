@@ -44,7 +44,7 @@ const App = () => {
     const savedUser = localStorage.getItem("user");
     const consent = localStorage.getItem("cookiesAccepted") === "true";
 
-    if (savedToken && savedUser && consent) {
+    if (savedToken && savedUser) {
       setToken(savedToken);
       setUser(JSON.parse(savedUser));
 
