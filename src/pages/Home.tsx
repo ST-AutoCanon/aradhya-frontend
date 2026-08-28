@@ -26,57 +26,156 @@ const Home = () => {
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
 
   // Users data (unchanged)
+  // const users: User[] = [
+  //   {
+  //     pic: "/testimonial2.png",
+  //     name: "Appayya Hiremath",
+  //     role: "Spiritual Professor.",
+  //     company: "",
+  //     testimonial:
+  //       "I appreciate Dakseyu Private Limited for their exceptional service, professionalism, and reliable support. Highly recommended!",
+  //   },
+  //   {
+  //     pic: "/avatar.png",
+  //     name: "Kiran Patil",
+  //     role: "Senior Project Manager",
+  //     company: "",
+  //     testimonial:
+  //       "Really happy with Dakseyu Private Limited – their insurance support is smooth and professional.",
+  //   },
+  //   {
+  //     pic: "/avatar.png",
+  //     name: "Vinayak Natikar",
+  //     role: "Software Developer",
+  //     company: "",
+  //     testimonial:
+  //       "Dakseyu Private Limited delivers professional and efficient service with reliable support. Truly impressed!",
+  //   },
+  //   {
+  //     pic: "/avatar.png",
+  //     name: "Pavithra",
+  //     role: "Accountant",
+  //     company: "",
+  //     testimonial:
+  //       "I deeply appreciate Dakseyu Private Limited for their efficient and thorough auditing services. Their professionalism stands out!",
+  //   },
+  //   {
+  //     pic: "/avatar.png",
+  //     name: "Prajwal",
+  //     role: "Financial Advisor",
+  //     company: "",
+  //     testimonial:
+  //       "Big thanks to Dakseyu Private Limited for making our auditing process smooth and hassle-free. Highly recommend!",
+  //   },
+  //   {
+  //     pic: "/avatar.png",
+  //     name: "Sarika",
+  //     role: "Engineer",
+  //     company: "",
+  //     testimonial:
+  //       "Insurance handled perfectly by Dakseyu Private Limited – fast, reliable, and professional service!",
+  //   },
+  // ];
+
+
   const users: User[] = [
     {
       pic: "/testimonial2.png",
-      name: "Appayya Hiremath",
-      role: "Spiritual Professor.",
-      company: "",
+      name: "Arunkumar Patil",
+      role: "President",
+      company: "Akshara Sri Vidya Public School & SV International School",
       testimonial:
-        "I appreciate Dakseyu Private Limited for their exceptional service, professionalism, and reliable support. Highly recommended!",
+        "We appreciate the professional approach and reliable support provided by Dakseyu Private Limited.",
     },
     {
       pic: "/avatar.png",
-      name: "Kiran Patil",
-      role: "Senior Project Manager",
-      company: "",
+      name: "Sandra M Dilema",
+      role: "General Manager",
+      company: "Right Gear Logistics",
       testimonial:
-        "Really happy with Dakseyu Private Limited – their insurance support is smooth and professional.",
+        "Dakseyu Private Limited has demonstrated professionalism and dependable support throughout our association.",
     },
     {
       pic: "/avatar.png",
-      name: "Vinayak Natikar",
-      role: "Software Developer",
-      company: "",
+      name: "Nataraja MS",
+      role: "Secretary",
+      company: "Venus International School",
       testimonial:
-        "Dakseyu Private Limited delivers professional and efficient service with reliable support. Truly impressed!",
+        "We value the professional service and consistent support provided by Dakseyu Private Limited.",
     },
     {
       pic: "/avatar.png",
-      name: "Pavithra",
-      role: "Accountant",
+      name: "Kiran Kumar BV, FCA",
+      role: "FCA",
       company: "",
       testimonial:
-        "I deeply appreciate Dakseyu Private Limited for their efficient and thorough auditing services. Their professionalism stands out!",
+        "Dakseyu Private Limited provides professional and reliable service with a strong focus on client support.",
     },
     {
       pic: "/avatar.png",
-      name: "Prajwal",
-      role: "Financial Advisor",
-      company: "",
+      name: "Naveen Kumar BV",
+      role: "CEO",
+      company: "Rohan Capital",
       testimonial:
-        "Big thanks to Dakseyu Private Limited for making our auditing process smooth and hassle-free. Highly recommend!",
+        "We appreciate Dakseyu Private Limited for their professional approach and reliable service.",
     },
     {
       pic: "/avatar.png",
-      name: "Sarika",
-      role: "Engineer",
-      company: "",
+      name: "Bhadram",
+      role: "Owner",
+      company: "Right Gear Logistics",
       testimonial:
-        "Insurance handled perfectly by Dakseyu Private Limited – fast, reliable, and professional service!",
+        "Dakseyu Private Limited has provided dependable support with professionalism and efficiency.",
+    },
+    {
+      pic: "/avatar.png",
+      name: "Nanjundaiah",
+      role: "Secretary",
+      company: "Cordial School",
+      testimonial:
+        "We appreciate the efficient service and professional support provided by Dakseyu Private Limited.",
+    },
+    {
+      pic: "/avatar.png",
+      name: "Ganganna",
+      role: "",
+      company: "Harward Group of Institutions",
+      testimonial:
+        "Dakseyu Private Limited has been professional, responsive, and reliable in their service.",
+    },
+    {
+      pic: "/avatar.png",
+      name: "Balakrishna",
+      role: "",
+      company: "Sri Sharada Cambridge International School",
+      testimonial:
+        "We appreciate the professional service and dependable support provided by Dakseyu Private Limited.",
+    },
+    {
+      pic: "/avatar.png",
+      name: "Ranganath",
+      role: "",
+      company: "Sri Sharada Cambridge International School",
+      testimonial:
+        "Dakseyu Private Limited delivers professional service with reliable and responsive support.",
+    },
+    {
+      pic: "/avatar.png",
+      name: "Yashwanth",
+      role: "",
+      company: "Sri Sai Modern English School",
+      testimonial:
+        "We appreciate Dakseyu Private Limited for their professional service and consistent support.",
+    },
+    {
+      pic: "/avatar.png",
+      name: "Kumar",
+      role: "",
+      company: "AS Logistics",
+      testimonial:
+        "Dakseyu Private Limited provides dependable service with a professional and client-focused approach.",
     },
   ];
-
   const partners = [
     { id: 1, logo: "testimonials/appolor.png", name: "Partner 1" },
     { id: 2, logo: "testimonials/bupa.png", name: "Partner 2" },
@@ -385,35 +484,44 @@ const Home = () => {
             }}
             autoplay={{ delay: 4000, disableOnInteraction: false }}
             loop
+            className="items-stretch"
           >
             {users.map((user, index) => (
-              <SwiperSlide key={index}>
-                <div className="bg-white p-6 sm:p-8 shadow-lg flex flex-col rounded-lg min-h-[190px]">
+              <SwiperSlide key={index} className="h-auto">
+                <div className="bg-white p-6 sm:p-8 shadow-lg rounded-lg h-full min-h-[280px] flex flex-col">
                   {/* User info */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="text-left flex-1">
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="text-left flex-1 min-w-0 pr-4">
                       <h3 className="text-lg sm:text-xl font-bold">
                         {user.name}
                       </h3>
-                      <p className="text-sm sm:text-base text-gray-600">
-                        {user.role}
-                      </p>
-                      <p className="text-sm sm:text-base text-gray-600">
-                        {user.company}
-                      </p>
+
+                      {user.role && (
+                        <p className="text-sm sm:text-base text-gray-600 mt-1">
+                          {user.role}
+                        </p>
+                      )}
+
+                      {user.company && (
+                        <p className="text-sm sm:text-base text-gray-600">
+                          {user.company}
+                        </p>
+                      )}
                     </div>
 
                     {/* User image */}
                     <img
                       src={user.pic}
                       alt={user.name}
-                      className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full flex-shrink-0 ml-4"
+                      className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full flex-shrink-0"
                     />
                   </div>
 
-                  {/* Testimonial */}
+                  {/* Divider */}
+                  <div className="border-t border-gray-200 mb-4" />
 
-                  <p className="text-gray-700 text-sm sm:text-base mt-2 text-left leading-relaxed flex-none">
+                  {/* Testimonial */}
+                  <p className="text-gray-700 text-sm sm:text-base text-left leading-relaxed">
                     {user.testimonial}
                   </p>
                 </div>
