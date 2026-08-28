@@ -1,4 +1,11 @@
-import { Home, Image, Database, FileText, Layout } from "lucide-react";
+import {
+  Home,
+  Image,
+  Database,
+  FileText,
+  Layout,
+  ShieldCheck,
+} from "lucide-react";
 
 const menuItems = [
   { name: "Dashboard", icon: Home },
@@ -6,6 +13,7 @@ const menuItems = [
   // { name: "TBD", icon: FileText },
   { name: "Banner Data", icon: FileText }, // updated here
   { name: "Jobs Data", icon: Layout },
+  { name: "Policy Data", icon: ShieldCheck },
 ];
 
 interface SidebarProps {
