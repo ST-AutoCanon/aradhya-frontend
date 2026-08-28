@@ -10,7 +10,7 @@ import UploadCloudLogoInactive from "../../assets/uploadcould_Inactive.png";
 import AdminUploadPage from "./AdminUploadPage";
 import AdminBanner from "./AdminBanner";
 import AdminJobsData from "./Jobs/AdminJobdata";
-
+import PolicyList from "./Policy/PolicyList";
 const AdminPage = () => {
   const storedPage = localStorage.getItem("activePage") || "Dashboard";
   const [activePage, setActivePage] = useState<string>(storedPage);
@@ -256,6 +256,7 @@ const AdminPage = () => {
         {activePage === "Image/Video Upload" && <AdminUploadPage />}
         {activePage === "Banner Data" && <AdminBanner />}
         {activePage === "Jobs Data" && <AdminJobsData />}
+        {activePage === "Policy Data" && <PolicyList />}
       </main>
     </div>
   );
