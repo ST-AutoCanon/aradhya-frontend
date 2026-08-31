@@ -11,6 +11,7 @@ import AdminUploadPage from "./AdminUploadPage";
 import AdminBanner from "./AdminBanner";
 import AdminJobsData from "./Jobs/AdminJobdata";
 import PolicyList from "./policy/PolicyList";
+import PolicyNotificationConfigPage from "./policy/PolicyConfig";
 const AdminPage = () => {
   const storedPage = localStorage.getItem("activePage") || "Dashboard";
   const [activePage, setActivePage] = useState<string>(storedPage);
@@ -257,6 +258,7 @@ const AdminPage = () => {
         {activePage === "Banner Data" && <AdminBanner />}
         {activePage === "Jobs Data" && <AdminJobsData />}
         {activePage === "Policy Data" && <PolicyList />}
+        {activePage === "Policy Config" && <PolicyNotificationConfigPage />}
       </main>
     </div>
   );
