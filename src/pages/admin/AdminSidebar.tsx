@@ -14,6 +14,7 @@ const menuItems = [
   { name: "Banner Data", icon: FileText }, // updated here
   { name: "Jobs Data", icon: Layout },
   { name: "Policy Data", icon: ShieldCheck },
+  { name: "Policy Config", icon: ShieldCheck},
 ];
 
 interface SidebarProps {

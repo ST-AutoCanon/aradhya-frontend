@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
+
 import type { Policy, PolicyFormData } from "./policyService";
 
 interface PolicyFormProps {
@@ -10,9 +11,38 @@ interface PolicyFormProps {
   loading?: boolean;
 }
 
-const defaultFormData: PolicyFormData = {
+/**
+ * Keep form values as strings while the user is typing.
+ * This prevents the default 0 from appearing at the beginning
+ * of number inputs.
+ */
+interface PolicyFormState {
+  month: string;
+  slNo: string;
+  customerName: string;
+  email: string;
+  contact: string;
+  reference: string;
+  vehicleNo: string;
+  variant: string;
+  insurerCompany: string;
+  policyNumber: string;
+  brokingCode: string;
+  policyStartDate: string;
+  endDate: string;
+  idv: string;
+  ncb: string;
+  premium: string;
+  netPremium: string;
+  cashBack: string;
+  balancePayment: string;
+  policyPaymentMode: string;
+  isActive: boolean;
+}
+
+const defaultFormData: PolicyFormState = {
   month: "",
-  slNo: 0,
+  slNo: "",
   customerName: "",
   email: "",
   contact: "",
@@ -24,15 +54,27 @@ const defaultFormData: PolicyFormData = {
   brokingCode: "",
   policyStartDate: "",
   endDate: "",
-  idv: 0,
-  ncb: 0,
-  premium: 0,
-  netPremium: 0,
-  cashBack: 0,
-  balancePayment: 0,
+  idv: "",
+  ncb: "",
+  premium: "",
+  netPremium: "",
+  cashBack: "",
+  balancePayment: "",
   policyPaymentMode: "CASH",
   isActive: true,
 };
+
+const numericFields = [
+  "slNo",
+  "idv",
+  "ncb",
+  "premium",
+  "netPremium",
+  "cashBack",
+  "balancePayment",
+] as const;
+
+type NumericField = (typeof numericFields)[number];
 
 const PolicyForm: React.FC<PolicyFormProps> = ({
   isOpen,
@@ -41,11 +83,16 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
   editingPolicy,
   loading = false,
 }) => {
-  const [formData, setFormData] = useState<PolicyFormData>(defaultFormData);
+  const [formData, setFormData] =
+    useState<PolicyFormState>(defaultFormData);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const formatDateForInput = (date: string | Date) => {
+  /**
+   * Convert Date/string from API into YYYY-MM-DD
+   * for <input type="date" />
+   */
+  const formatDateForInput = (date: string | Date | null | undefined) => {
     if (!date) return "";
 
     const parsedDate = new Date(date);
@@ -57,38 +104,77 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
     return parsedDate.toISOString().split("T")[0];
   };
 
+  /**
+   * Populate form when opening / editing.
+   */
   useEffect(() => {
     if (!isOpen) return;
 
     if (editingPolicy) {
       setFormData({
-        month: editingPolicy.month || "",
-        slNo: editingPolicy.slNo || 0,
+        month: editingPolicy.month ?? "",
+        slNo:
+          editingPolicy.slNo !== null &&
+          editingPolicy.slNo !== undefined
+            ? String(editingPolicy.slNo)
+            : "",
 
-        customerName: editingPolicy.customerName || "",
-        email: editingPolicy.email || "",
-        contact: editingPolicy.contact || "",
+        customerName: editingPolicy.customerName ?? "",
+        email: editingPolicy.email ?? "",
+        contact: editingPolicy.contact ?? "",
+        reference: editingPolicy.reference ?? "",
+        vehicleNo: editingPolicy.vehicleNo ?? "",
+        variant: editingPolicy.variant ?? "",
+        insurerCompany: editingPolicy.insurerCompany ?? "",
+        policyNumber: editingPolicy.policyNumber ?? "",
+        brokingCode: editingPolicy.brokingCode ?? "",
 
-        reference: editingPolicy.reference || "",
-        vehicleNo: editingPolicy.vehicleNo || "",
-        variant: editingPolicy.variant || "",
-        insurerCompany: editingPolicy.insurerCompany || "",
-        policyNumber: editingPolicy.policyNumber || "",
-        brokingCode: editingPolicy.brokingCode || "",
+        policyStartDate: formatDateForInput(
+          editingPolicy.policyStartDate,
+        ),
 
-        policyStartDate: formatDateForInput(editingPolicy.policyStartDate),
         endDate: formatDateForInput(editingPolicy.endDate),
 
-        idv: editingPolicy.idv || 0,
-        ncb: editingPolicy.ncb || 0,
-        premium: editingPolicy.premium || 0,
-        netPremium: editingPolicy.netPremium || 0,
-        cashBack: editingPolicy.cashBack || 0,
-        balancePayment: editingPolicy.balancePayment || 0,
+        idv:
+          editingPolicy.idv !== null &&
+          editingPolicy.idv !== undefined
+            ? String(editingPolicy.idv)
+            : "",
 
-        policyPaymentMode: editingPolicy.policyPaymentMode || "CASH",
+        ncb:
+          editingPolicy.ncb !== null &&
+          editingPolicy.ncb !== undefined
+            ? String(editingPolicy.ncb)
+            : "",
 
-        isActive: editingPolicy.isActive,
+        premium:
+          editingPolicy.premium !== null &&
+          editingPolicy.premium !== undefined
+            ? String(editingPolicy.premium)
+            : "",
+
+        netPremium:
+          editingPolicy.netPremium !== null &&
+          editingPolicy.netPremium !== undefined
+            ? String(editingPolicy.netPremium)
+            : "",
+
+        cashBack:
+          editingPolicy.cashBack !== null &&
+          editingPolicy.cashBack !== undefined
+            ? String(editingPolicy.cashBack)
+            : "",
+
+        balancePayment:
+          editingPolicy.balancePayment !== null &&
+          editingPolicy.balancePayment !== undefined
+            ? String(editingPolicy.balancePayment)
+            : "",
+
+        policyPaymentMode:
+          editingPolicy.policyPaymentMode ?? "CASH",
+
+        isActive: editingPolicy.isActive ?? true,
       });
     } else {
       setFormData(defaultFormData);
@@ -97,6 +183,19 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
     setErrors({});
   }, [isOpen, editingPolicy]);
 
+  /**
+   * Handle all input/select changes.
+   *
+   * IMPORTANT:
+   * We keep number values as strings while typing.
+   * We do NOT use Number(value) here.
+   *
+   * This prevents:
+   * 0 -> 05000
+   *
+   * Instead:
+   * "" -> 5000
+   */
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -104,16 +203,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
 
     setFormData((prev) => ({
       ...prev,
-      [name]:
-        name === "slNo" ||
-        name === "idv" ||
-        name === "ncb" ||
-        name === "premium" ||
-        name === "netPremium" ||
-        name === "cashBack" ||
-        name === "balancePayment"
-          ? Number(value)
-          : value,
+      [name]: value,
     }));
 
     if (errors[name]) {
@@ -124,31 +214,86 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
     }
   };
 
+  /**
+   * Validate numeric fields.
+   */
+  const validateNumberField = (
+    field: NumericField,
+    label: string,
+    value: string,
+    newErrors: Record<string, string>,
+  ) => {
+    // Empty value
+    if (value.trim() === "") {
+      newErrors[field] = `${label} is required`;
+      return;
+    }
+
+    const numberValue = Number(value);
+
+    // Invalid number
+    if (!Number.isFinite(numberValue)) {
+      newErrors[field] = `${label} must be a valid number`;
+      return;
+    }
+
+    // Negative number
+    if (numberValue < 0) {
+      newErrors[field] = `${label} cannot be negative`;
+    }
+  };
+
+  /**
+   * Validate complete form.
+   */
   const validate = () => {
     const newErrors: Record<string, string> = {};
+
+    // ----------------------------------
+    // Basic Information
+    // ----------------------------------
 
     if (!formData.month.trim()) {
       newErrors.month = "Month is required";
     }
 
+    // SL No
+    validateNumberField(
+      "slNo",
+      "SL No",
+      formData.slNo,
+      newErrors,
+    );
+
+    // ----------------------------------
+    // Customer Information
+    // ----------------------------------
+
     if (!formData.customerName.trim()) {
       newErrors.customerName = "Customer name is required";
     }
 
-    // Email is optional, but if entered it must be valid
-    if (formData.email?.trim()) {
+    // Email is optional.
+    // If entered, validate it.
+    if (formData.email.trim()) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!emailRegex.test(formData.email.trim())) {
-        newErrors.customerEmail = "Please enter a valid email address";
+        newErrors.email = "Please enter a valid email address";
       }
     }
 
+    // Contact
     if (!formData.contact.trim()) {
       newErrors.contact = "Contact number is required";
-    } else if (!/^\d{10}$/.test(formData.contact)) {
-      newErrors.contact = "Contact number must be exactly 10 digits";
+    } else if (!/^\d{10}$/.test(formData.contact.trim())) {
+      newErrors.contact =
+        "Contact number must be exactly 10 digits";
     }
+
+    // ----------------------------------
+    // Vehicle Information
+    // ----------------------------------
 
     if (!formData.vehicleNo.trim()) {
       newErrors.vehicleNo = "Vehicle number is required";
@@ -158,16 +303,27 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
       newErrors.variant = "Variant is required";
     }
 
+    // ----------------------------------
+    // Insurance Information
+    // ----------------------------------
+
     if (!formData.insurerCompany.trim()) {
-      newErrors.insurerCompany = "Insurer company is required";
+      newErrors.insurerCompany =
+        "Insurer company is required";
     }
 
     if (!formData.policyNumber.trim()) {
-      newErrors.policyNumber = "Policy number is required";
+      newErrors.policyNumber =
+        "Policy number is required";
     }
 
+    // ----------------------------------
+    // Policy Dates
+    // ----------------------------------
+
     if (!formData.policyStartDate) {
-      newErrors.policyStartDate = "Policy start date is required";
+      newErrors.policyStartDate =
+        "Policy start date is required";
     }
 
     if (!formData.endDate) {
@@ -177,56 +333,131 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
     if (
       formData.policyStartDate &&
       formData.endDate &&
-      new Date(formData.endDate) < new Date(formData.policyStartDate)
+      new Date(formData.endDate) <
+        new Date(formData.policyStartDate)
     ) {
-      newErrors.endDate = "End date cannot be before start date";
+      newErrors.endDate =
+        "End date cannot be before start date";
     }
 
-    if (formData.idv < 0) {
-      newErrors.idv = "IDV cannot be negative";
-    }
+    // ----------------------------------
+    // Financial Information
+    // ----------------------------------
 
-    if (formData.ncb < 0) {
-      newErrors.ncb = "NCB cannot be negative";
-    }
+    validateNumberField(
+      "idv",
+      "IDV",
+      formData.idv,
+      newErrors,
+    );
 
-    if (formData.premium < 0) {
-      newErrors.premium = "Premium cannot be negative";
-    }
+    validateNumberField(
+      "ncb",
+      "NCB",
+      formData.ncb,
+      newErrors,
+    );
 
-    if (formData.netPremium < 0) {
-      newErrors.netPremium = "Net premium cannot be negative";
-    }
+    validateNumberField(
+      "premium",
+      "Premium",
+      formData.premium,
+      newErrors,
+    );
 
-    if (formData.cashBack < 0) {
-      newErrors.cashBack = "Cashback cannot be negative";
-    }
+    validateNumberField(
+      "netPremium",
+      "Net premium",
+      formData.netPremium,
+      newErrors,
+    );
 
-    if (formData.balancePayment < 0) {
-      newErrors.balancePayment = "Balance payment cannot be negative";
-    }
+    validateNumberField(
+      "cashBack",
+      "Cashback",
+      formData.cashBack,
+      newErrors,
+    );
+
+    validateNumberField(
+      "balancePayment",
+      "Balance payment",
+      formData.balancePayment,
+      newErrors,
+    );
 
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
 
+  /**
+   * Submit form.
+   *
+   * Convert string values back into numbers ONLY here.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validate()) return;
+    if (!validate()) {
+      return;
+    }
 
-    await onSubmit({
-      ...formData,
-      customerEmail: formData.customerEmail?.trim().toLowerCase(),
-    });
+    const payload: PolicyFormData = {
+      month: formData.month.trim(),
+
+      slNo: Number(formData.slNo),
+
+      customerName: formData.customerName.trim(),
+
+      email: formData.email.trim().toLowerCase(),
+
+      contact: formData.contact.trim(),
+
+      reference: formData.reference.trim(),
+
+      vehicleNo: formData.vehicleNo.trim(),
+
+      variant: formData.variant.trim(),
+
+      insurerCompany: formData.insurerCompany.trim(),
+
+      policyNumber: formData.policyNumber.trim(),
+
+      brokingCode: formData.brokingCode.trim(),
+
+      policyStartDate: formData.policyStartDate,
+
+      endDate: formData.endDate,
+
+      idv: Number(formData.idv),
+
+      ncb: Number(formData.ncb),
+
+      premium: Number(formData.premium),
+
+      netPremium: Number(formData.netPremium),
+
+      cashBack: Number(formData.cashBack),
+
+      balancePayment: Number(formData.balancePayment),
+
+      policyPaymentMode: formData.policyPaymentMode,
+
+      isActive: formData.isActive,
+    };
+
+    await onSubmit(payload);
   };
 
-  if (!isOpen) return null;
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
       <div className="w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-xl bg-white shadow-xl">
+
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-6 py-4">
           <div>
@@ -251,7 +482,11 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6 p-6">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 p-6"
+        >
+
           {/* Basic Information */}
           <section>
             <h3 className="mb-4 text-base font-semibold text-gray-900">
@@ -259,12 +494,14 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
               <FormInput
                 label="Month"
                 name="month"
                 value={formData.month}
                 onChange={handleChange}
                 error={errors.month}
+                required
                 placeholder="August"
               />
 
@@ -275,6 +512,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 value={formData.slNo}
                 onChange={handleChange}
                 error={errors.slNo}
+                required
                 min="0"
               />
 
@@ -286,6 +524,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 error={errors.reference}
                 placeholder="Reference"
               />
+
             </div>
           </section>
 
@@ -296,6 +535,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
               <FormInput
                 label="Customer Name"
                 name="customerName"
@@ -312,7 +552,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                error={errors.customerEmail}
+                error={errors.email}
                 placeholder="customer@example.com"
               />
 
@@ -325,7 +565,9 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 required
                 placeholder="10 digit mobile number"
                 maxLength={10}
+                inputMode="numeric"
               />
+
             </div>
           </section>
 
@@ -336,6 +578,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
               <FormInput
                 label="Vehicle No"
                 name="vehicleNo"
@@ -355,6 +598,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 required
                 placeholder="Vehicle variant"
               />
+
             </div>
           </section>
 
@@ -365,6 +609,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
               <FormInput
                 label="Insurer Company"
                 name="insurerCompany"
@@ -393,6 +638,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 error={errors.brokingCode}
                 placeholder="Agent code"
               />
+
             </div>
           </section>
 
@@ -403,6 +649,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
               <FormInput
                 label="Policy Start Date"
                 name="policyStartDate"
@@ -422,6 +669,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 error={errors.endDate}
                 required
               />
+
             </div>
           </section>
 
@@ -432,6 +680,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
               <FormInput
                 label="IDV"
                 name="idv"
@@ -439,7 +688,9 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 value={formData.idv}
                 onChange={handleChange}
                 error={errors.idv}
+                required
                 min="0"
+                step="0.01"
               />
 
               <FormInput
@@ -449,7 +700,9 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 value={formData.ncb}
                 onChange={handleChange}
                 error={errors.ncb}
+                required
                 min="0"
+                step="0.01"
               />
 
               <FormInput
@@ -459,7 +712,9 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 value={formData.premium}
                 onChange={handleChange}
                 error={errors.premium}
+                required
                 min="0"
+                step="0.01"
               />
 
               <FormInput
@@ -469,7 +724,9 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 value={formData.netPremium}
                 onChange={handleChange}
                 error={errors.netPremium}
+                required
                 min="0"
+                step="0.01"
               />
 
               <FormInput
@@ -479,7 +736,9 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 value={formData.cashBack}
                 onChange={handleChange}
                 error={errors.cashBack}
+                required
                 min="0"
+                step="0.01"
               />
 
               <FormInput
@@ -489,8 +748,11 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 value={formData.balancePayment}
                 onChange={handleChange}
                 error={errors.balancePayment}
+                required
                 min="0"
+                step="0.01"
               />
+
             </div>
           </section>
 
@@ -501,6 +763,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                   Payment Mode
@@ -514,19 +777,23 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 >
                   <option value="CASH">Cash</option>
                   <option value="UPI">UPI</option>
-                  <option value="BANK_TRANSFER">Bank Transfer</option>
+                  <option value="BANK_TRANSFER">
+                    Bank Transfer
+                  </option>
                   <option value="CARD">Card</option>
                   <option value="CHEQUE">Cheque</option>
                   <option value="ONLINE">Online</option>
                   <option value="OTHER">Other</option>
                 </select>
               </div>
+
             </div>
           </section>
 
           {/* Status */}
           <section>
             <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
+
               <div>
                 <h3 className="text-sm font-semibold text-gray-900">
                   Policy Status
@@ -546,20 +813,26 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                   }))
                 }
                 className={`relative h-6 w-11 rounded-full transition ${
-                  formData.isActive ? "bg-black" : "bg-gray-300"
+                  formData.isActive
+                    ? "bg-black"
+                    : "bg-gray-300"
                 }`}
               >
                 <span
                   className={`absolute top-1 h-4 w-4 rounded-full bg-white transition ${
-                    formData.isActive ? "left-6" : "left-1"
+                    formData.isActive
+                      ? "left-6"
+                      : "left-1"
                   }`}
                 />
               </button>
+
             </div>
           </section>
 
           {/* Buttons */}
           <div className="flex flex-col-reverse gap-3 border-t pt-5 sm:flex-row sm:justify-end">
+
             <button
               type="button"
               onClick={onClose}
@@ -580,6 +853,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                   ? "Update Policy"
                   : "Create Policy"}
             </button>
+
           </div>
         </form>
       </div>
@@ -591,13 +865,25 @@ interface FormInputProps {
   label: string;
   name: string;
   value: string | number | undefined;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => void;
   type?: string;
   error?: string;
   required?: boolean;
   placeholder?: string;
   min?: string;
   maxLength?: number;
+  step?: string;
+  inputMode?:
+    | "none"
+    | "text"
+    | "tel"
+    | "url"
+    | "email"
+    | "numeric"
+    | "decimal"
+    | "search";
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -611,12 +897,19 @@ const FormInput: React.FC<FormInputProps> = ({
   placeholder,
   min,
   maxLength,
+  step,
+  inputMode,
 }) => {
   return (
     <div>
       <label className="mb-1.5 block text-sm font-medium text-gray-700">
         {label}
-        {required && <span className="ml-1 text-red-500">*</span>}
+
+        {required && (
+          <span className="ml-1 text-red-500">
+            *
+          </span>
+        )}
       </label>
 
       <input
@@ -627,6 +920,8 @@ const FormInput: React.FC<FormInputProps> = ({
         placeholder={placeholder}
         min={min}
         maxLength={maxLength}
+        step={step}
+        inputMode={inputMode}
         className={`w-full rounded-lg border px-3 py-2.5 text-sm outline-none transition focus:ring-1 ${
           error
             ? "border-red-500 focus:border-red-500 focus:ring-red-500"
@@ -634,9 +929,14 @@ const FormInput: React.FC<FormInputProps> = ({
         }`}
       />
 
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {error && (
+        <p className="mt-1 text-xs text-red-500">
+          {error}
+        </p>
+      )}
     </div>
   );
 };
 
 export default PolicyForm;
+
