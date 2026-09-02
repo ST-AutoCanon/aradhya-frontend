@@ -318,15 +318,16 @@ const PolicyNotificationConfigPage: React.FC = () => {
         );
       }
 
-      setSuccess(
-        editingId
-          ? "Notification configuration updated successfully."
-          : "Notification configuration created successfully."
-      );
+const message = editingId
+  ? "Notification configuration updated successfully."
+  : "Notification configuration created successfully.";
 
-      resetForm();
+setSuccess(message);
+window.alert(message);
 
-      await fetchConfigs();
+resetForm();
+
+await fetchConfigs();
     } catch (err: any) {
       setError(
         err?.message ||
@@ -371,11 +372,12 @@ const PolicyNotificationConfigPage: React.FC = () => {
         );
       }
 
-      setSuccess(
-        "Notification configuration deleted successfully."
-      );
+const message = "Notification configuration deleted successfully.";
 
-      await fetchConfigs();
+setSuccess(message);
+window.alert(message);
+
+await fetchConfigs();
     } catch (err: any) {
       setError(
         err?.message ||
