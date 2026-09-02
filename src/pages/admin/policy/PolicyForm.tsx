@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import type { Policy, PolicyFormData } from "./policyService";
 
 interface PolicyFormProps {
@@ -18,7 +19,7 @@ interface PolicyFormProps {
  */
 interface PolicyFormState {
   month: string;
-  slNo: string;
+  // slNo: string;
   customerName: string;
   email: string;
   contact: string;
@@ -42,7 +43,7 @@ interface PolicyFormState {
 
 const defaultFormData: PolicyFormState = {
   month: "",
-  slNo: "",
+  // slNo: "",
   customerName: "",
   email: "",
   contact: "",
@@ -65,7 +66,7 @@ const defaultFormData: PolicyFormState = {
 };
 
 const numericFields = [
-  "slNo",
+  // "slNo",
   "idv",
   "ncb",
   "premium",
@@ -113,11 +114,11 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
     if (editingPolicy) {
       setFormData({
         month: editingPolicy.month ?? "",
-        slNo:
-          editingPolicy.slNo !== null &&
-          editingPolicy.slNo !== undefined
-            ? String(editingPolicy.slNo)
-            : "",
+        // slNo:
+        //   editingPolicy.slNo !== null &&
+        //   editingPolicy.slNo !== undefined
+        //     ? String(editingPolicy.slNo)
+        //     : "",
 
         customerName: editingPolicy.customerName ?? "",
         email: editingPolicy.email ?? "",
@@ -257,13 +258,13 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
       newErrors.month = "Month is required";
     }
 
-    // SL No
-    validateNumberField(
-      "slNo",
-      "SL No",
-      formData.slNo,
-      newErrors,
-    );
+    // // SL No
+    // validateNumberField(
+    //   "slNo",
+    //   "SL No",
+    //   formData.slNo,
+    //   newErrors,
+    // );
 
     // ----------------------------------
     // Customer Information
@@ -406,7 +407,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
     const payload: PolicyFormData = {
       month: formData.month.trim(),
 
-      slNo: Number(formData.slNo),
+      // slNo: Number(formData.slNo),
 
       customerName: formData.customerName.trim(),
 
@@ -457,7 +458,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
       <div className="w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-xl bg-white shadow-xl">
-
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-6 py-4">
           <div>
@@ -482,11 +482,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
         </div>
 
         {/* Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6 p-6"
-        >
-
+        <form onSubmit={handleSubmit} className="space-y-6 p-6">
           {/* Basic Information */}
           <section>
             <h3 className="mb-4 text-base font-semibold text-gray-900">
@@ -494,7 +490,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-
               <FormInput
                 label="Month"
                 name="month"
@@ -506,17 +501,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
               />
 
               <FormInput
-                label="SL No"
-                name="slNo"
-                type="number"
-                value={formData.slNo}
-                onChange={handleChange}
-                error={errors.slNo}
-                required
-                min="0"
-              />
-
-              <FormInput
                 label="Reference"
                 name="reference"
                 value={formData.reference}
@@ -524,7 +508,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 error={errors.reference}
                 placeholder="Reference"
               />
-
             </div>
           </section>
 
@@ -535,7 +518,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-
               <FormInput
                 label="Customer Name"
                 name="customerName"
@@ -567,7 +549,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 maxLength={10}
                 inputMode="numeric"
               />
-
             </div>
           </section>
 
@@ -578,7 +559,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-
               <FormInput
                 label="Vehicle No"
                 name="vehicleNo"
@@ -598,7 +578,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 required
                 placeholder="Vehicle variant"
               />
-
             </div>
           </section>
 
@@ -609,7 +588,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-
               <FormInput
                 label="Insurer Company"
                 name="insurerCompany"
@@ -638,7 +616,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 error={errors.brokingCode}
                 placeholder="Agent code"
               />
-
             </div>
           </section>
 
@@ -649,8 +626,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-
-              <FormInput
+              {/* <FormInput
                 label="Policy Start Date"
                 name="policyStartDate"
                 type="date"
@@ -658,9 +634,54 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 onChange={handleChange}
                 error={errors.policyStartDate}
                 required
-              />
+              /> */}
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                  Policy Start Date
+                  <span className="ml-1 text-red-500">*</span>
+                </label>
 
-              <FormInput
+                <DatePicker
+                  selected={
+                    formData.policyStartDate
+                      ? new Date(formData.policyStartDate + "T00:00:00")
+                      : null
+                  }
+                  onChange={(date) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      policyStartDate: date
+                        ? `${date.getFullYear()}-${String(
+                            date.getMonth() + 1,
+                          ).padStart(2, "0")}-${String(date.getDate()).padStart(
+                            2,
+                            "0",
+                          )}`
+                        : "",
+                    }));
+
+                    setErrors((prev) => ({
+                      ...prev,
+                      policyStartDate: "",
+                    }));
+                  }}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="DD/MM/YYYY"
+                  className={`w-full rounded-lg border px-3 py-2.5 text-sm outline-none transition ${
+                    errors.policyStartDate
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
+                />
+
+                {errors.policyStartDate && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.policyStartDate}
+                  </p>
+                )}
+              </div>
+
+              {/* <FormInput
                 label="End Date"
                 name="endDate"
                 type="date"
@@ -668,8 +689,49 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 onChange={handleChange}
                 error={errors.endDate}
                 required
-              />
+              /> */}
 
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                  End Date
+                  <span className="ml-1 text-red-500">*</span>
+                </label>
+
+                <DatePicker
+                  selected={
+                    formData.endDate
+                      ? new Date(formData.endDate + "T00:00:00")
+                      : null
+                  }
+                  onChange={(date) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      endDate: date
+                        ? `${date.getFullYear()}-${String(
+                            date.getMonth() + 1,
+                          ).padStart(2, "0")}-${String(date.getDate()).padStart(
+                            2,
+                            "0",
+                          )}`
+                        : "",
+                    }));
+
+                    setErrors((prev) => ({
+                      ...prev,
+                      endDate: "",
+                    }));
+                  }}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="DD/MM/YYYY"
+                  className={`w-full rounded-lg border px-3 py-2.5 text-sm outline-none transition ${
+                    errors.endDate ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+
+                {errors.endDate && (
+                  <p className="mt-1 text-xs text-red-500">{errors.endDate}</p>
+                )}
+              </div>
             </div>
           </section>
 
@@ -680,11 +742,11 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-
               <FormInput
                 label="IDV"
                 name="idv"
                 type="number"
+                placeholder="IDV"
                 value={formData.idv}
                 onChange={handleChange}
                 error={errors.idv}
@@ -697,6 +759,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 label="NCB"
                 name="ncb"
                 type="number"
+                placeholder="NCB"
                 value={formData.ncb}
                 onChange={handleChange}
                 error={errors.ncb}
@@ -709,6 +772,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 label="Premium"
                 name="premium"
                 type="number"
+                placeholder="Premium"
                 value={formData.premium}
                 onChange={handleChange}
                 error={errors.premium}
@@ -721,6 +785,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 label="Net Premium"
                 name="netPremium"
                 type="number"
+                placeholder="Net Premium"
                 value={formData.netPremium}
                 onChange={handleChange}
                 error={errors.netPremium}
@@ -733,6 +798,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 label="Cashback"
                 name="cashBack"
                 type="number"
+                placeholder="Cashback"
                 value={formData.cashBack}
                 onChange={handleChange}
                 error={errors.cashBack}
@@ -745,6 +811,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 label="Balance Payment"
                 name="balancePayment"
                 type="number"
+                placeholder="Balance Payment"
                 value={formData.balancePayment}
                 onChange={handleChange}
                 error={errors.balancePayment}
@@ -752,7 +819,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 min="0"
                 step="0.01"
               />
-
             </div>
           </section>
 
@@ -763,7 +829,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                   Payment Mode
@@ -777,23 +842,19 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 >
                   <option value="CASH">Cash</option>
                   <option value="UPI">UPI</option>
-                  <option value="BANK_TRANSFER">
-                    Bank Transfer
-                  </option>
+                  <option value="BANK_TRANSFER">Bank Transfer</option>
                   <option value="CARD">Card</option>
                   <option value="CHEQUE">Cheque</option>
                   <option value="ONLINE">Online</option>
                   <option value="OTHER">Other</option>
                 </select>
               </div>
-
             </div>
           </section>
 
           {/* Status */}
           <section>
             <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
-
               <div>
                 <h3 className="text-sm font-semibold text-gray-900">
                   Policy Status
@@ -813,26 +874,20 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                   }))
                 }
                 className={`relative h-6 w-11 rounded-full transition ${
-                  formData.isActive
-                    ? "bg-black"
-                    : "bg-gray-300"
+                  formData.isActive ? "bg-black" : "bg-gray-300"
                 }`}
               >
                 <span
                   className={`absolute top-1 h-4 w-4 rounded-full bg-white transition ${
-                    formData.isActive
-                      ? "left-6"
-                      : "left-1"
+                    formData.isActive ? "left-6" : "left-1"
                   }`}
                 />
               </button>
-
             </div>
           </section>
 
           {/* Buttons */}
           <div className="flex flex-col-reverse gap-3 border-t pt-5 sm:flex-row sm:justify-end">
-
             <button
               type="button"
               onClick={onClose}
@@ -853,7 +908,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                   ? "Update Policy"
                   : "Create Policy"}
             </button>
-
           </div>
         </form>
       </div>
