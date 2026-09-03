@@ -56,6 +56,18 @@ const PolicyNotificationConfigPage: React.FC = () => {
 
   const [showForm, setShowForm] = useState<boolean>(false);
 
+
+  useEffect(() => {
+  if (!success) return;
+
+  const timer = setTimeout(() => {
+    setSuccess("");
+  }, 3000);
+
+  return () => clearTimeout(timer);
+  }, [success]);
+  
+
   /**
    * ============================================
    * FETCH ALL CONFIGURATIONS

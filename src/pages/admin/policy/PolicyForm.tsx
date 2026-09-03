@@ -197,10 +197,48 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
    * Instead:
    * "" -> 5000
    */
+  // const handleChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  // ) => {
+  //   const { name, value } = e.target;
+
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+
+  //   if (errors[name]) {
+  //     setErrors((prev) => ({
+  //       ...prev,
+  //       [name]: "",
+  //     }));
+  //   }
+  // };
+
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
+
+    // Contact number: allow digits only, maximum 10 digits
+    if (name === "contact") {
+      const numericValue = value.replace(/\D/g, "").slice(0, 10);
+
+      setFormData((prev) => ({
+        ...prev,
+        contact: numericValue,
+      }));
+
+      if (errors.contact) {
+        setErrors((prev) => ({
+          ...prev,
+          contact: "",
+        }));
+      }
+
+      return;
+    }
 
     setFormData((prev) => ({
       ...prev,
@@ -620,21 +658,13 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
           </section>
 
           {/* Policy Dates */}
-          <section>
+          {/* <section>
             <h3 className="mb-4 text-base font-semibold text-gray-900">
               Policy Dates
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {/* <FormInput
-                label="Policy Start Date"
-                name="policyStartDate"
-                type="date"
-                value={formData.policyStartDate}
-                onChange={handleChange}
-                error={errors.policyStartDate}
-                required
-              /> */}
+         
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
                   Policy Start Date
@@ -681,15 +711,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 )}
               </div>
 
-              {/* <FormInput
-                label="End Date"
-                name="endDate"
-                type="date"
-                value={formData.endDate}
-                onChange={handleChange}
-                error={errors.endDate}
-                required
-              /> */}
+           
 
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">
@@ -698,6 +720,104 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 </label>
 
                 <DatePicker
+                  selected={
+                    formData.endDate
+                      ? new Date(formData.endDate + "T00:00:00")
+                      : null
+                  }
+                  onChange={(date) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      endDate: date
+                        ? `${date.getFullYear()}-${String(
+                            date.getMonth() + 1,
+                          ).padStart(2, "0")}-${String(date.getDate()).padStart(
+                            2,
+                            "0",
+                          )}`
+                        : "",
+                    }));
+
+                    setErrors((prev) => ({
+                      ...prev,
+                      endDate: "",
+                    }));
+                  }}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="DD/MM/YYYY"
+                  className={`w-full rounded-lg border px-3 py-2.5 text-sm outline-none transition ${
+                    errors.endDate ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+
+                {errors.endDate && (
+                  <p className="mt-1 text-xs text-red-500">{errors.endDate}</p>
+                )}
+              </div>
+            </div>
+          </section> */}
+
+          <section>
+            <h3 className="mb-4 text-base font-semibold text-gray-900">
+              Policy Dates
+            </h3>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                  Policy Start Date
+                  <span className="ml-1 text-red-500">*</span>
+                </label>
+
+                <DatePicker
+                  wrapperClassName="w-full"
+                  selected={
+                    formData.policyStartDate
+                      ? new Date(formData.policyStartDate + "T00:00:00")
+                      : null
+                  }
+                  onChange={(date) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      policyStartDate: date
+                        ? `${date.getFullYear()}-${String(
+                            date.getMonth() + 1,
+                          ).padStart(
+                            2,
+                            "0",
+                          )}-${String(date.getDate()).padStart(2, "0")}`
+                        : "",
+                    }));
+
+                    setErrors((prev) => ({
+                      ...prev,
+                      policyStartDate: "",
+                    }));
+                  }}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="DD/MM/YYYY"
+                  className={`w-full rounded-lg border px-3 py-2.5 text-sm outline-none transition ${
+                    errors.policyStartDate
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
+                />
+
+                {errors.policyStartDate && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.policyStartDate}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                  End Date
+                  <span className="ml-1 text-red-500">*</span>
+                </label>
+
+                <DatePicker
+                  wrapperClassName="w-full"
                   selected={
                     formData.endDate
                       ? new Date(formData.endDate + "T00:00:00")
