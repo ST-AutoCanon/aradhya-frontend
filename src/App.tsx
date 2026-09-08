@@ -27,6 +27,7 @@ import InsuranceSubServicePage from "./pages/InsurancePages/InsuranceSubServiceP
 import InsuranaceMainPage from "./pages/InsurancePages/InsuranceMainPage";
 import BooksStationarySubService from "./pages/BooksStationary/BooksStationarySubService";
 import FillDetailsBooksStationary from "./pages/FillDetails/FillDetailsBooksStationary";
+import PolicyExpiryTestPage from "./pages/admin/policy/PolicyExpiryTestPage";
 
 const App = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -154,6 +155,14 @@ const App = () => {
             element={
               <ProtectedAdminRoute user={user} loading={authLoading}>
                 <AdminViewJobs />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/policy-expiry-test"
+            element={
+              <ProtectedAdminRoute user={user} loading={authLoading}>
+                <PolicyExpiryTestPage />
               </ProtectedAdminRoute>
             }
           />
