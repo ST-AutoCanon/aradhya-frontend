@@ -4,7 +4,6 @@ const BACKEND = import.meta.env.VITE_BACKEND_URL;
 
 export interface Policy {
   _id: string;
-  month: string;
   slNo: number;
   customerName: string;
   email: string;
@@ -37,7 +36,7 @@ export interface Policy {
 }
 
 export interface PolicyFormData {
-  month: string;
+
   slNo: number;
   customerName: string;
   email: string;
