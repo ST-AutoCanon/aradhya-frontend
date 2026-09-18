@@ -18,7 +18,7 @@ interface PolicyFormProps {
  * of number inputs.
  */
 interface PolicyFormState {
-  month: string;
+
   // slNo: string;
   customerName: string;
   email: string;
@@ -42,7 +42,7 @@ interface PolicyFormState {
 }
 
 const defaultFormData: PolicyFormState = {
-  month: "",
+
   // slNo: "",
   customerName: "",
   email: "",
@@ -113,7 +113,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
 
     if (editingPolicy) {
       setFormData({
-        month: editingPolicy.month ?? "",
+        // month: editingPolicy.month ?? "",
         // slNo:
         //   editingPolicy.slNo !== null &&
         //   editingPolicy.slNo !== undefined
@@ -292,9 +292,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
     // Basic Information
     // ----------------------------------
 
-    if (!formData.month.trim()) {
-      newErrors.month = "Month is required";
-    }
+
 
     // // SL No
     // validateNumberField(
@@ -443,7 +441,6 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
     }
 
     const payload: PolicyFormData = {
-      month: formData.month.trim(),
 
       // slNo: Number(formData.slNo),
 
@@ -528,7 +525,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
             </h3>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <FormInput
+              {/* <FormInput
                 label="Month"
                 name="month"
                 value={formData.month}
@@ -536,7 +533,7 @@ const PolicyForm: React.FC<PolicyFormProps> = ({
                 error={errors.month}
                 required
                 placeholder="August"
-              />
+              /> */}
 
               <FormInput
                 label="Reference"

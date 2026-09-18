@@ -1819,7 +1819,7 @@ const PolicyList: React.FC = () => {
               </th>
 
               <th className="p-3 text-left">SL</th>
-              <th className="whitespace-nowrap p-3 text-left">Month</th>
+              {/* <th className="whitespace-nowrap p-3 text-left">Month</th> */}
               <th className="whitespace-nowrap p-3 text-left">Customer Name</th>
               <th className="whitespace-nowrap p-3 text-left">Contact</th>
               <th className="whitespace-nowrap p-3 text-left">Email</th>
@@ -1898,9 +1898,9 @@ const PolicyList: React.FC = () => {
                     <td className="p-3">{index + 1}</td>
 
                     {/* Month */}
-                    <td className="whitespace-nowrap p-3">
+                    {/* <td className="whitespace-nowrap p-3">
                       {policy.month || "-"}
-                    </td>
+                    </td> */}
 
                     {/* Customer */}
                     <td className="max-w-[180px] p-3 font-medium">
