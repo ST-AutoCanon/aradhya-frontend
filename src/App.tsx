@@ -158,14 +158,14 @@ const App = () => {
               </ProtectedAdminRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/admin/policy-expiry-test"
             element={
               <ProtectedAdminRoute user={user} loading={authLoading}>
                 <PolicyExpiryTestPage />
               </ProtectedAdminRoute>
             }
-          />
+          /> */}
         </Routes>
       </main>
 
